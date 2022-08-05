@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class playerControl : MonoBehaviour
 {
-    private GameObject objectSelected;
+    private GameObject SpawnManager;
+    public int index;
+    public int childCount;
+    
     // Start is called before the first frame update
     void Start()
     {   
         //start with menu selection/
         // objectSelected
+        SpawnManager = GameObject.Find("SpawnManager");
+        index = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        childCount = SpawnManager.transform.childCount;
+
         // <-
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -36,16 +43,25 @@ public class playerControl : MonoBehaviour
     {
         if(direction=="left")
         {
-
+            if(index==0)
+                index=childCount-1;
+            else
+                index--;
         }
         else if(direction=="right")
         {
-
+            if(index==childCount-1)
+                index=0;
+            else
+                index++;
         }
     }
 
-    // void Interact()
-    // {
-    //     objectSelected.Interact();
-    // }
+
+    void Interact()
+    {
+        GameObject selected;
+        selected = SpawnManager.transform.GetChild(index).gameObject;
+        //do some shit maybe
+    }
 }
