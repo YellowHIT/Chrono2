@@ -7,6 +7,7 @@ public class playerControl : MonoBehaviour
     private GameObject SpawnManager;
     public int index;
     public int childCount;
+    private GameObject selected;
     
     // Start is called before the first frame update
     void Start()
@@ -41,27 +42,33 @@ public class playerControl : MonoBehaviour
 
     void Movement(string direction)
     {
-        if(direction=="left")
+        // selected = null;
+        if(childCount!=0)
         {
-            if(index==0)
-                index=childCount-1;
-            else
-                index--;
-        }
-        else if(direction=="right")
-        {
-            if(index==childCount-1)
-                index=0;
-            else
-                index++;
+            if(direction=="left")
+            {
+                if(index==0)
+                    index=childCount-1;
+                else
+                    index--;
+            }
+            else if(direction=="right")
+            {
+                if(index==childCount-1)
+                    index=0;
+                else
+                    index++;
+            }
+            selected = SpawnManager.transform.GetChild(index).gameObject;
+            //moves the cursor beneath the object
+            transform.position = new vector3 (selected.position.x,selected.position.y-1);
+
         }
     }
 
 
     void Interact()
     {
-        GameObject selected;
-        selected = SpawnManager.transform.GetChild(index).gameObject;
         //do some shit maybe
     }
 }
