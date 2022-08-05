@@ -15,6 +15,7 @@ public class Object : MonoBehaviour
     void Update()
     {
         transform.Translate(0,-Time.deltaTime * speed,0);
+        //wait and then keep going down
         if(transform.position.y >= -6.0f)
         {
             Destroy(this);
