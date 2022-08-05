@@ -18,34 +18,34 @@ public class playerControl : MonoBehaviour
         // <-
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Movement('left');
+            Movement("left");
         }
         // ->
         if(Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Movement('right');
+            Movement("right");
         }
         //  Space
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Interact();
-        }
+        // if(Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Interact();
+        // }
     }
 
     void Movement(string direction)
     {
-        if(direction=='left')
+        if(direction=="left")
         {
 
         }
-        else if(direction=='right')
+        else if(direction=="right")
         {
 
         }
     }
 
-    void Interact()
-    {
-        objectSelected.Interact();
-    }
+    // void Interact()
+    // {
+    //     objectSelected.Interact();
+    // }
 }
