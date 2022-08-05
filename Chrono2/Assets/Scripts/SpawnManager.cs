@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class SpawnManager : MonoBehaviour
 {
     public float spawnYLocation;
     public float[] spawnXLocation;
     public GameObject prefab;
+    public GameObject sprites;
+
     public int numberOfItems;
 
     public bool started;
@@ -30,6 +32,22 @@ public class SpawnManager : MonoBehaviour
         spawnXLocation[0] = -5.0f;
         spawnXLocation[1] =  0.0f;
         spawnXLocation[2] =  5.0f;
+        //get sprites
+        sprites = GameObject.Find("Sprites");
+        var childCount = sprites.transform.childCount;
+
+        Random.Range(0,childCount-1);
+        for(var i=0; i<numberOfItems;i++)
+        {
+            Vector3 spawnLocation = new Vector3(spawnXLocation[i], spawnYLocation,0.0f); 
+
+            int randomChild = Random.Range(0,childCount-1);
+
+            prefab = transform.GetChild(i).gameObject;
+            prefab.GetComponent<SpriteRenderer>().sprite = sprites.transform.GetChild(randomChild).gameObject.GetComponent<SpriteRenderer>().sprite ;
+
+            prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = sprites.transform.GetChild(randomChild).gameObject.name;    
+        }
 
 
     }
@@ -43,8 +61,7 @@ public class SpawnManager : MonoBehaviour
             started=false;
             for(var i=0; i<numberOfItems;i++)
             {
-                Vector3 spawnLocation = new Vector3(spawnXLocation[i], spawnYLocation,0.0f); 
-                Instantiate(prefab, spawnLocation, Quaternion.identity); 
+                // Instantiate(prefab, spawnLocation, Quaternion.identity); 
                 // prefab.name = names[i];//os nomes ordenados por numnero
                 // prafeb.sprite = sprites[prefab.name]//vetor de spirtes ordenados por nome
             }
