@@ -61,7 +61,7 @@ public class playerControl : MonoBehaviour
             }
             selected = SpawnManager.transform.GetChild(index).gameObject;
             //moves the cursor beneath the object
-            transform.position = new vector3 (selected.position.x,selected.position.y-1);
+            transform.position = new Vector3(selected.transform.position.x,selected.transform.position.y-1);
 
         }
     }

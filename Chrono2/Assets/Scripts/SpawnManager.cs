@@ -44,7 +44,9 @@ public class SpawnManager : MonoBehaviour
             for(var i=0; i<numberOfItems;i++)
             {
                 Vector3 spawnLocation = new Vector3(spawnXLocation[i], spawnYLocation,0.0f); 
-                Instantiate(prefab, spawnLocation, Quaternion.identity);    
+                Instantiate(prefab, spawnLocation, Quaternion.identity); 
+                // prefab.name = names[i];//os nomes ordenados por numnero
+                // prafeb.sprite = sprites[prefab.name]//vetor de spirtes ordenados por nome
             }
         }
 
