@@ -15,11 +15,17 @@ public class SpawnManager : MonoBehaviour
     public bool timeOut;
     public bool correct;
     public bool gameOver;
+
     
+    public JSONReader json;
 
     // Start is called before the first frame update
     void Start()
     {
+        // json = new JSONReader();
+        // json.GetComponent<JSONReader>();
+        // json.Load();
+
         started  = false; 
         timeOut  = false;
         correct  = false;
@@ -28,22 +34,28 @@ public class SpawnManager : MonoBehaviour
         numberOfItems=3;
         spawnYLocation = 6.0f;
         spawnXLocation = new float[3];
+        
         //assing values 
         spawnXLocation[0] = -5.0f;
         spawnXLocation[1] =  0.0f;
         spawnXLocation[2] =  5.0f;
+
         //get sprites
+
         sprites = GameObject.Find("Sprites");
+
         var childCount = sprites.transform.childCount;
 
         Random.Range(0,childCount-1);
         for(var i=0; i<numberOfItems;i++)
         {
+
             Vector3 spawnLocation = new Vector3(spawnXLocation[i], spawnYLocation,0.0f); 
 
             int randomChild = Random.Range(0,childCount-1);
 
             prefab = transform.GetChild(i).gameObject;
+
             prefab.GetComponent<SpriteRenderer>().sprite = sprites.transform.GetChild(randomChild).gameObject.GetComponent<SpriteRenderer>().sprite ;
 
             prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = sprites.transform.GetChild(randomChild).gameObject.name;    
