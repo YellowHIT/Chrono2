@@ -14,8 +14,15 @@ public class playerControl : MonoBehaviour
     {   
         //start with menu selection/
         // objectSelected
-        SpawnManager = GameObject.Find("SpawnManager");
-        index = 0;
+        SpawnManager = GameObject.Find("Objects");
+        childCount = SpawnManager.transform.childCount;
+
+        index = (int) childCount/2;
+
+        selected = SpawnManager.transform.GetChild(index).gameObject;
+        //moves the cursor beneath the object
+        transform.position = new Vector3(selected.transform.position.x,-3.5f,0);
+
     }
 
     // Update is called once per frame
@@ -61,7 +68,7 @@ public class playerControl : MonoBehaviour
             }
             selected = SpawnManager.transform.GetChild(index).gameObject;
             //moves the cursor beneath the object
-            transform.position = new Vector3(selected.transform.position.x,selected.transform.position.y-1);
+            transform.position = new Vector3(selected.transform.position.x,-3.5f,0);
 
         }
     }
