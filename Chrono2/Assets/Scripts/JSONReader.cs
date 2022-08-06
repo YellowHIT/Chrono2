@@ -1,34 +1,28 @@
 using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
-
+using SimpleJSON;
 public class JSONReader : MonoBehaviour
 {
+    public string path;
     public TextAsset jsonFile;
-    private void Start() 
+    public JSONNode data;
+    public void Load() 
     {
-        // Load();
-        Items ItemsInJson = JsonUtility.FromJson<Items>(jsonFile.text);
-        Debug.Log( JsonUtility.FromJson<Items>(jsonFile.text));
-        PropertyInfo[] property = typeof(MyCustomClass).GetProperties(); 
-        foreach (Item item in ItemsInJson.ItemsList)
+        path="./Assets/Scripts/TimeLine.json";
+        string jsonString = File.ReadAllText(path); 
+        data = JSON.Parse(jsonString);
+        foreach(JSONNode item in data["Items"])
         {
-            Debug.Log(ItemsInJson.ItemsList);
-
-            Debug.Log("Found Item: " + item.name + " " + item.time);
+            Debug.Log ("name: " + item["name"].Value + " time: " + item["time"].AsInt);
         }
-    }
-    public void Load()
-    {
+        //proliferate data
+
 
     }
 }
-[System.Serializable]
-public class Items
-{
-    //Items is case sensitive and must match the string "Items" in the JSON.
-    public Item[] ItemsList;
-}
+
 [System.Serializable]
 public class Item
 {

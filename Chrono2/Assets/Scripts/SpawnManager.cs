@@ -16,15 +16,14 @@ public class SpawnManager : MonoBehaviour
     public bool correct;
     public bool gameOver;
 
-    
+    public int[] objectsAge;    
     public JSONReader json;
 
     // Start is called before the first frame update
     void Start()
     {
-        // json = new JSONReader();
-        // json.GetComponent<JSONReader>();
-        // json.Load();
+        json = new JSONReader();
+        json.Load();
 
         started  = false; 
         timeOut  = false;
@@ -35,6 +34,8 @@ public class SpawnManager : MonoBehaviour
         spawnYLocation = 6.0f;
         spawnXLocation = new float[3];
         
+        objectsAge = new int[3];
+
         //assing values 
         spawnXLocation[0] = -5.0f;
         spawnXLocation[1] =  0.0f;
@@ -49,16 +50,19 @@ public class SpawnManager : MonoBehaviour
         Random.Range(0,childCount-1);
         for(var i=0; i<numberOfItems;i++)
         {
-
+            //location
             Vector3 spawnLocation = new Vector3(spawnXLocation[i], spawnYLocation,0.0f); 
-
+            //get a random item index
             int randomChild = Random.Range(0,childCount-1);
-
+            //get game object
             prefab = transform.GetChild(i).gameObject;
-
+            //set the sprite
             prefab.GetComponent<SpriteRenderer>().sprite = sprites.transform.GetChild(randomChild).gameObject.GetComponent<SpriteRenderer>().sprite ;
+            //set the text
+            prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = json.data["Items"][randomChild]["name"].Value;
+            //set item age value
+            objectsAge[i] = json.data["Items"][randomChild]["time"].AsInt;
 
-            prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text = sprites.transform.GetChild(randomChild).gameObject.name;    
         }
 
 
