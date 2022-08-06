@@ -10,7 +10,7 @@ public class JSONReader : MonoBehaviour
         // Load();
         Items ItemsInJson = JsonUtility.FromJson<Items>(jsonFile.text);
         Debug.Log( JsonUtility.FromJson<Items>(jsonFile.text));
-        PropertyInfo[] property = typeof(MyCustomClass).GetProperties(); 
+        //PropertyInfo[] property = typeof(MyCustomClass).GetProperties(); 
         foreach (Item item in ItemsInJson.ItemsList)
         {
             Debug.Log(ItemsInJson.ItemsList);
