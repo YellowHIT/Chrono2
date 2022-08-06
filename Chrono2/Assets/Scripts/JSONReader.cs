@@ -10,6 +10,7 @@ public class JSONReader : MonoBehaviour
     public JSONNode data;
     public void Load() 
     {
+<<<<<<< HEAD
         path="./Assets/Scripts/TimeLine.json";
         string jsonString = File.ReadAllText(path); 
         data = JSON.Parse(jsonString);
