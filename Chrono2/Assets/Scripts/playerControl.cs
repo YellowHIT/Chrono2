@@ -13,10 +13,17 @@ public class playerControl : MonoBehaviour
     public GameObject Menu;
     public float offset;
     private GameObject activeObject;
+    public AudioSource gameAudio;
+    public AudioClip playerMoveSFX;
+
+    public AudioClip correctSFX;
+    public AudioClip wrongSFX;
     // Start is called before the first frame update
 
     void Start()
     {   
+        gameAudio = GetComponent<AudioSource>();
+
         //start with menu selection
         Menu = GameObject.Find("Menu");
 
@@ -65,16 +72,19 @@ public class playerControl : MonoBehaviour
         // <-
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            gameAudio.PlayOneShot(playerMoveSFX,1.0f);
             Movement("left");
         }
         // ->
         if(Input.GetKeyDown(KeyCode.RightArrow))
         {
+            gameAudio.PlayOneShot(playerMoveSFX,1.0f);
             Movement("right");
         }
         //Space
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            // gameAudio.PlayOneShot(playerMoveSFX,1.0f);
             Interact();
         }
     }
@@ -114,6 +124,8 @@ public class playerControl : MonoBehaviour
         // Debug.Log("Class name " + activeObject.name);
         if(activeObject.name == "Start")
         {
+            gameAudio.PlayOneShot(playerMoveSFX,1.0f);
+
             if(index == 0)
             {
                 SpawnManager.transform.GetComponent<SpawnManager>().timer=10;
@@ -123,33 +135,36 @@ public class playerControl : MonoBehaviour
                 activeObject = SpawnManager;
                 
                 index=1;
-                Debug.Log("Class name " + activeObject.name);
-                Debug.Log("Comeca ai mermao");    
+                // Debug.Log("Class name " + activeObject.name);
+                // Debug.Log("Comeca ai mermao");    
             }
             else
             {
                 Menu.transform.GetComponent<MenuUIHandler>().ExitGameOnMenu();   
-                Debug.Log("flws ai mermao");    
+                // Debug.Log("flws ai mermao");    
             }
         }
 
         else if(activeObject.name == "Objects")
         {
-            Debug.Log("cara entrei aqui?");
+            // Debug.Log("cara entrei aqui?");
             bool didPlayerMiss = activeObject.transform.GetComponent<SpawnManager>().Select(index);
 
             if(didPlayerMiss)
             {
+                gameAudio.PlayOneShot(wrongSFX,7.0f);
                 //gameover
                 playerGameOver();
             }
             else
             {
-                Debug.Log("fuku");
+                gameAudio.PlayOneShot(correctSFX,0.8f);
+                // Debug.Log("fuku");
             }
         }
         else if(activeObject.name == "GameOver")
         {
+            gameAudio.PlayOneShot(playerMoveSFX,1.0f);
             if(index == 0)
             {
                 var obj= Resources.FindObjectsOfTypeAll<GameOver>();

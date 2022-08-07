@@ -19,6 +19,8 @@ public class SpawnManager : MonoBehaviour
     public bool timeOut;
     public bool correct;
     public bool isGameOver;
+    public AudioSource gameAudio;
+    public AudioClip BGM;
 
     public List<int> objectsAge;    
     public List<int> objectsIndex; 
@@ -30,6 +32,9 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //game bgm
+        gameAudio = GetComponent<AudioSource>();
+        
         json = new JSONReader();
         json.Load();
         //get MUH
@@ -105,7 +110,7 @@ public class SpawnManager : MonoBehaviour
             timerObj[0].gameObject.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = ((int)timer).ToString();
             Debug.Log(timer);    
         }       
-        
+
         if(newRound == true && MUH.isGameActive == true)
         {
             pickObjects();
