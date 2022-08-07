@@ -21,16 +21,17 @@ public class SpawnManager : MonoBehaviour
     public List<int> objectsIndex; 
     public JSONReader json;
 
+    public MenuUIHandler MUH;
+    
     // Start is called before the first frame update
     void Start()
     {
         json = new JSONReader();
         json.Load();
+        //get MUH
+        MUH = GameObject.Find("Menu").GetComponent<MenuUIHandler>();
 
-        newRound  = false; 
-        timeOut  = false;
-        correct  = false;
-        gameOver = false;
+        newRound  = true;
 
         numberOfItems=3;
         spawnYLocation = 6.0f;
@@ -46,7 +47,7 @@ public class SpawnManager : MonoBehaviour
         //get sprites
         sprites = GameObject.Find("Sprites");
 
-        pickObjects();
+        // pickObjects();
     }
 
     void pickObjects()
@@ -81,25 +82,35 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //checks if needs to spawn new objects
-        if(newRound == true)
+        if(newRound == true && MUH.isGameActive == true)
         {
             pickObjects();
             newRound=false;
         }
      
     }
-    public void Select(int index)
+    public bool Select(int index)
     {
         if(index == objectsAge.IndexOf(objectsAge.Min()))
         {
             
             Debug.Log("ACERTOU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
+            newRound=true;
+            for(var i=0; i<numberOfItems;i++)
+                Destroy(transform.GetChild(0));
+            return false;
         }
         else
         {
             Debug.Log("ERROU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
+            MUH.isGameActive=false;
+            //game over
+            gameOver=true;
+            newRound=false;
+            return true;
+
         }
-        pickObjects();
     }
 }

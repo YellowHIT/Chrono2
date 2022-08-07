@@ -15,7 +15,7 @@ public class JSONReader : MonoBehaviour
         data = JSON.Parse(jsonString);
         foreach(JSONNode item in data["Items"])
         {
-            Debug.Log ("name: " + item["name"].Value + " time: " + item["time"].AsInt);
+            // Debug.Log ("name: " + item["name"].Value + " time: " + item["time"].AsInt);
         }
         //proliferate data
 
