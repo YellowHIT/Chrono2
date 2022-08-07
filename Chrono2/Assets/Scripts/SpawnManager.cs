@@ -8,8 +8,9 @@ public class SpawnManager : MonoBehaviour
     public float spawnYLocation;
     public float[] spawnXLocation;
     public GameObject prefab;
+    public GameObject emptyPrefab;
     public GameObject sprites;
-
+    public int score;
     public int numberOfItems;
 
     public bool newRound;
@@ -30,6 +31,8 @@ public class SpawnManager : MonoBehaviour
         json.Load();
         //get MUH
         MUH = GameObject.Find("Menu").GetComponent<MenuUIHandler>();
+        //score
+        score=0;
 
         newRound  = true;
 
@@ -47,10 +50,11 @@ public class SpawnManager : MonoBehaviour
         //get sprites
         sprites = GameObject.Find("Sprites");
 
-        // pickObjects();
+        // get a empty prefab for "destroy"
+        emptyPrefab = transform.GetChild(0).gameObject;
     }
 
-    void pickObjects()
+    public void pickObjects()
     {
          var childCount = sprites.transform.childCount;
 
@@ -98,17 +102,29 @@ public class SpawnManager : MonoBehaviour
             
             Debug.Log("ACERTOU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
             newRound=true;
-            for(var i=0; i<numberOfItems;i++)
-                Destroy(transform.GetChild(0));
+            score++;
+
             return false;
         }
         else
         {
             Debug.Log("ERROU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
+            Debug.Log("Score  : "+score);
             MUH.isGameActive=false;
+            for(var i=0; i<numberOfItems;i++)
+            {
+                prefab = transform.GetChild(i).gameObject;
+                //set the sprite
+                prefab.GetComponent<SpriteRenderer>().sprite = null ;
+                //set the text
+                prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text ="";
+                //set item age value
+                objectsAge[i] = 0;
+            }
             //game over
             gameOver=true;
-            newRound=false;
+            newRound=true;
+            score=0;
             return true;
 
         }
