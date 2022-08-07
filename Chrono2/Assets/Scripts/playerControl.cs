@@ -8,6 +8,7 @@ public class playerControl : MonoBehaviour
     public int childCount;
     private GameObject selected;
     private GameObject MenuUiObject;
+    private GameObject Score;
     private GameObject SpawnManager;
     public GameObject Menu;
     public float offset;
@@ -113,7 +114,10 @@ public class playerControl : MonoBehaviour
             if(index == 0)
             {
                 Menu.transform.GetComponent<MenuUIHandler>().StartGame();
+                var obj= Resources.FindObjectsOfTypeAll<Score>();
+                obj[0].gameObject.SetActive(true);
                 activeObject = SpawnManager;
+                activeObject.gameObject.transform.GetComponent<SpawnManager>().timer = 10;
                 index=1;
                 Debug.Log("Class name " + activeObject.name);
                 Debug.Log("Comeca ai mermao");    
@@ -154,6 +158,7 @@ public class playerControl : MonoBehaviour
                 obj[0].gameObject.SetActive(false);
                 Menu.transform.GetComponent<MenuUIHandler>().StartGame();
                 activeObject = SpawnManager;
+                activeObject.gameObject.transform.GetComponent<SpawnManager>().timer = 10;
                 index=1;
                 Debug.Log("Class name " + activeObject.name);
                 Debug.Log("Comeca ai mermao");    

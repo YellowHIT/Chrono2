@@ -11,8 +11,10 @@ public class SpawnManager : MonoBehaviour
     public GameObject emptyPrefab;
     public GameObject sprites;
     public int score;
+    public int highScore;
+    public int currentScore;
     public int numberOfItems;
-
+    public float timer;
     public bool newRound;
     public bool timeOut;
     public bool correct;
@@ -33,7 +35,10 @@ public class SpawnManager : MonoBehaviour
         MUH = GameObject.Find("Menu").GetComponent<MenuUIHandler>();
         //score
         score=0;
-
+        highScore=0;
+        currentScore=0;
+        
+        timer=0;
         newRound  = true;
 
         numberOfItems=3;
@@ -92,6 +97,9 @@ public class SpawnManager : MonoBehaviour
         {
             pickObjects();
             newRound=false;
+            timer=timer-Time.deltaTime;
+            var obj= Resources.FindObjectsOfTypeAll<Score>();
+            obj[0].gameObject.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = score.ToString();
         }
      
     }
@@ -124,7 +132,12 @@ public class SpawnManager : MonoBehaviour
             //game over
             gameOver=true;
             newRound=true;
+            currentScore=score;
+            if(highScore<currentScore)
+                highScore=currentScore;
+
             score=0;
+            timer=10;
             return true;
 
         }
