@@ -40,11 +40,11 @@ public class playerControl : MonoBehaviour
         {
             Movement("right");
         }
-        //  Space
-        // if(Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     Interact();
-        // }
+        //Space
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Interact();
+        }
     }
 
     void Movement(string direction)
@@ -77,5 +77,6 @@ public class playerControl : MonoBehaviour
     void Interact()
     {
         //do some shit maybe
+        SpawnManager.transform.GetComponent<SpawnManager>().Select(index);
     }
 }
