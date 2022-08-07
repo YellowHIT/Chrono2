@@ -55,8 +55,11 @@ public class playerControl : MonoBehaviour
         selected = activeObject.transform.GetChild(index).gameObject;
         if(activeObject.name=="Objects")
             offset=4.0f;
+        else if(activeObject.name == "GameOver")
+            offset=1;
         else
             offset=0;
+
         //moves the cursor beneath the object
         transform.position = new Vector3(selected.transform.position.x,selected.transform.position.y-offset,0);
         // <-
@@ -113,11 +116,12 @@ public class playerControl : MonoBehaviour
         {
             if(index == 0)
             {
+                SpawnManager.transform.GetComponent<SpawnManager>().timer=10;
                 Menu.transform.GetComponent<MenuUIHandler>().StartGame();
                 var obj= Resources.FindObjectsOfTypeAll<Score>();
                 obj[0].gameObject.SetActive(true);
                 activeObject = SpawnManager;
-                activeObject.gameObject.transform.GetComponent<SpawnManager>().timer = 10;
+                
                 index=1;
                 Debug.Log("Class name " + activeObject.name);
                 Debug.Log("Comeca ai mermao");    
@@ -137,13 +141,7 @@ public class playerControl : MonoBehaviour
             if(didPlayerMiss)
             {
                 //gameover
-                // // var gameOver = Resources.FindObjectsOfTypeAll<GameOver>();
-                var obj= Resources.FindObjectsOfTypeAll<GameOver>();
-                // Debug.Log(obj[0]);
-                obj[0].gameObject.SetActive(true);
-                //set gameoverui as active
-                activeObject = MenuUiObject.transform.GetChild(1).gameObject;
-                index=0;
+                playerGameOver();
             }
             else
             {
@@ -173,5 +171,14 @@ public class playerControl : MonoBehaviour
 
 
     }
-
+    public void playerGameOver()
+    {
+        // // var gameOver = Resources.FindObjectsOfTypeAll<GameOver>();
+        var obj= Resources.FindObjectsOfTypeAll<GameOver>();
+        // Debug.Log(obj[0]);
+        obj[0].gameObject.SetActive(true);
+        //set gameoverui as active
+        activeObject = MenuUiObject.transform.GetChild(1).gameObject;
+        index=0;
+    }
 }

@@ -18,13 +18,14 @@ public class SpawnManager : MonoBehaviour
     public bool newRound;
     public bool timeOut;
     public bool correct;
-    public bool gameOver;
+    public bool isGameOver;
 
     public List<int> objectsAge;    
     public List<int> objectsIndex; 
     public JSONReader json;
 
     public MenuUIHandler MUH;
+    public playerControl player;
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class SpawnManager : MonoBehaviour
         json.Load();
         //get MUH
         MUH = GameObject.Find("Menu").GetComponent<MenuUIHandler>();
+        player = GameObject.Find("Player").GetComponent<playerControl>();
         //score
         score=0;
         highScore=0;
@@ -91,15 +93,28 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //checks if needs to spawn new objects
+        if(timer>=0 && MUH.isGameActive == true)
+        {
+            timer -= Time.deltaTime;
+            if(timer<0)
+            {
+                gameOver();
+                player.playerGameOver();
+            }
+            var timerObj= Resources.FindObjectsOfTypeAll<Score>();
+            timerObj[0].gameObject.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = ((int)timer).ToString();
+            Debug.Log(timer);    
+        }       
+        
         if(newRound == true && MUH.isGameActive == true)
         {
             pickObjects();
             newRound=false;
-            timer=timer-Time.deltaTime;
+
+            //set score text
             var obj= Resources.FindObjectsOfTypeAll<Score>();
             obj[0].gameObject.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = score.ToString();
+
         }
      
     }
@@ -110,6 +125,7 @@ public class SpawnManager : MonoBehaviour
             
             Debug.Log("ACERTOU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
             newRound=true;
+            timer=10;
             score++;
 
             return false;
@@ -118,28 +134,32 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log("ERROU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
             Debug.Log("Score  : "+score);
-            MUH.isGameActive=false;
-            for(var i=0; i<numberOfItems;i++)
-            {
-                prefab = transform.GetChild(i).gameObject;
-                //set the sprite
-                prefab.GetComponent<SpriteRenderer>().sprite = null ;
-                //set the text
-                prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text ="";
-                //set item age value
-                objectsAge[i] = 0;
-            }
-            //game over
-            gameOver=true;
-            newRound=true;
-            currentScore=score;
-            if(highScore<currentScore)
-                highScore=currentScore;
-
-            score=0;
-            timer=10;
+            gameOver();
             return true;
 
         }
+    }
+    void gameOver()
+    {
+        MUH.isGameActive=false;
+        for(var i=0; i<numberOfItems;i++)
+        {
+            prefab = transform.GetChild(i).gameObject;
+            //set the sprite
+            prefab.GetComponent<SpriteRenderer>().sprite = null ;
+            //set the text
+            prefab.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TMP_Text>().text ="";
+            //set item age value
+            objectsAge[i] = 0;
+        }
+        //game over
+        isGameOver=true;
+        newRound=true;
+        currentScore=score;
+        if(highScore<currentScore)
+            highScore=currentScore;
+
+        score=0;
+        // timer=10;
     }
 }
