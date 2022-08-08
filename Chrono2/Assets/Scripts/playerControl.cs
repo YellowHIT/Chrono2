@@ -128,7 +128,7 @@ public class playerControl : MonoBehaviour
 
             if(index == 0)
             {
-                SpawnManager.transform.GetComponent<SpawnManager>().timer=10;
+                SpawnManager.transform.GetComponent<SpawnManager>().timer=11;
                 Menu.transform.GetComponent<MenuUIHandler>().StartGame();
                 var obj= Resources.FindObjectsOfTypeAll<Score>();
                 obj[0].gameObject.SetActive(true);
@@ -171,7 +171,7 @@ public class playerControl : MonoBehaviour
                 obj[0].gameObject.SetActive(false);
                 Menu.transform.GetComponent<MenuUIHandler>().StartGame();
                 activeObject = SpawnManager;
-                activeObject.gameObject.transform.GetComponent<SpawnManager>().timer = 10;
+                activeObject.gameObject.transform.GetComponent<SpawnManager>().timer = 11;
                 index=1;
                 Debug.Log("Class name " + activeObject.name);
                 Debug.Log("Comeca ai mermao");    

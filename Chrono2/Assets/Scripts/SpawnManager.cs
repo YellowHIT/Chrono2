@@ -130,7 +130,7 @@ public class SpawnManager : MonoBehaviour
             
             Debug.Log("ACERTOU "+index+" "+objectsAge.IndexOf(objectsAge.Min()));
             newRound=true;
-            timer=10;
+            timer=11;
             score++;
 
             return false;
